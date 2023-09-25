@@ -41,5 +41,11 @@ public class Scraper {
 
         Elements mediumContainer = doc.select("div[class=container]");
 
+        for(Element WeatherContainer : mediumContainer) {
+            //String
+
+        }
+
+
     }
 }
