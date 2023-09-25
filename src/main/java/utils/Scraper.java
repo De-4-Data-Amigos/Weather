@@ -46,6 +46,7 @@ public class Scraper {
         //Vi løber mediumcontainer igennem som indeholder alt vi skal bruge ifht vejr
         for(Element weatherContainer : mediumContainer) {
             //Dato
+            String time = weatherContainer.select("tc_weather__forecast__list__time").text();
 
             //Tidspunkt
             String time = weatherContainer.select("tc_weather__forecast__list__time").text();
