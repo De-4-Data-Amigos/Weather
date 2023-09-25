@@ -43,28 +43,42 @@ public class Scraper {
         Elements mediumContainer = todayBiggestContainer.getElementsByTag("tr");
         Elements mediumContainer2 = daysBiggestContainer.getElementsByTag("tr");
 
-        //Vi løber mediumcontainer igennem som indeholder alt vi skal bruge ifht vejr
-        for(Element weatherContainer : mediumContainer) {
-            //Dato
-            String time = weatherContainer.select("tc_weather__forecast__list__time").text();
+        //Today
+        for(Element weatherContainerToday : mediumContainer) {
+            //time during the day
+            String time = weatherContainerToday.select("tc_weather__forecast__list__time").text();
 
-            //Tidspunkt
-            String time = weatherContainer.select("tc_weather__forecast__list__time").text();
+            //Temperature
+        String tempDuringDayToday = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
+        String tempDuringNightToday = weatherContainerToday.select("tc_weather__forecast__list__temperature_night").text();
 
-            //Temperatur (min/max)
-            String tempDay = weatherContainer.select("tc_weather__forecast__list__temperature").text();
-            String tempNight = weatherContainer.select("tc_weather__forecast__list__temperature_night").text();
+        // Downpour
+            String downPourToday = weatherContainerToday.select("tc_weather__forecast__list__precipitation").text();
 
-            // Nedbør
-            String downPour = weatherContainer.select("tc_weather__forecast__list__precipitation").text();
-
-            // Vind
-            String Wind = weatherContainer.select("class.tc_weather__forecast__list__wind__speed").text();
+            // Wind
+            String WindToday = weatherContainerToday.select("class.tc_weather__forecast__list__wind__speed").text();
 
             // UV
-            String UV = weatherContainer.select("span.jss80 ss53
+            String UVToday = weatherContainerToday.select("span.jss80 ss53").text();
 
-            // Luftfugtighed
+
+        //Days forward
+        for(Element weatherContainerAllDays : mediumContainer) {
+            //Dato
+            String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
+
+            //Temperature
+            String tempDay = weatherContainerAllDays.select("tc_weather__forecast__list__temperature").text();
+            String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
+
+            // Nedbør
+            String downPour = weatherContainerAllDays.select("tc_weather__forecast__list__precipitation").text();
+
+            // Vind
+            String Wind = weatherContainerAllDays.select("class.tc_weather__forecast__list__wind__speed").text();
+
+            // UV
+            String UV = weatherContainerAllDays.select("span.jss80 ss53).text").text();
 
         }
 
