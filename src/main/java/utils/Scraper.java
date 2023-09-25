@@ -45,6 +45,7 @@ public class Scraper {
 
         //Today
         for(Element weatherContainerToday : mediumContainer) {
+
             //time during the day
             String time = weatherContainerToday.select("tc_weather__forecast__list__time").text();
 
@@ -59,14 +60,15 @@ public class Scraper {
 
         //Days forward
         for(Element weatherContainerAllDays : mediumContainer2) {
-            //Dato
+
+            // Dato
             String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
 
-            //Temperature
+            // Temperature
             String tempDay = weatherContainerAllDays.select("tc_weather__forecast__list__temperature").text();
             String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
 
-            // Nedbør
+            // Downpour
             String downPour = weatherContainerAllDays.select("tc_weather__forecast__list__precipitation").text();
 
 
