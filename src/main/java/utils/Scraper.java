@@ -25,7 +25,7 @@ import static javax.management.Query.attr;
 public class Scraper {
 
     public static List<Weather> fetchWeatherData() throws IOException, InterruptedException {
-        String url = "https://www.dmi.dk/lokation/show/DK/2618425/København/#9";
+        String url = "https://vejr.tv2.dk/";
 
         List<Weather> WeatherList = new ArrayList<>();
         Document doc = Jsoup.connect(url)
@@ -42,16 +42,24 @@ public class Scraper {
         Elements mediumContainer = doc.select("jss91");
 
         //Vi løber mediumcontainer igennem som indeholder alt vi skal bruge ifht vejr
-        for(Element WeatherContainer : mediumContainer) {
+        for(Element weatherContainer : mediumContainer) {
             //Dato
 
+            //Tidspunkt
+            String time = weatherContainer.select("tc_weather__forecast__list__time").text();
+
             //Temperatur (min/max)
+            String tempDay = weatherContainer.select("tc_weather__forecast__list__temperature").text();
+            String tempNight = weatherContainer.select("tc_weather__forecast__list__temperature_night").text();
 
             // Nedbør
+            String downPour = weatherContainer.select("tc_weather__forecast__list__precipitation").text();
 
             // Vind
+            String Wind = weatherContainer.select("class.tc_weather__forecast__list__wind__speed").text();
 
             // UV
+            String UV = weatherContainer.select("span.jss80 ss53
 
             // Luftfugtighed
             
