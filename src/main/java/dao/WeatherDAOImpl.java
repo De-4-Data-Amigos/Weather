@@ -1,20 +1,16 @@
 package dao;
 
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Query;
-import model.Weather;
 
-import java.util.List;
+public class WeatherDAOImpl implements IWeatherDAO {
 
-public class WeatherDAO {
-
-    private static WeatherDAO instance;
+    private static IWeatherDAO instance;
     private static EntityManagerFactory emf;
 
-    public static WeatherDAO getInstance(EntityManagerFactory _emf) {
+    public static IWeatherDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new WeartherDAO();
+            instance = new WeatherDAOImpl();
         }
         return instance;
     }
