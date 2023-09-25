@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static javax.management.Query.attr;
+
 public class Scraper {
 
     public static List<Weather> fetchWeatherData() throws IOException, InterruptedException {
@@ -42,38 +43,60 @@ public class Scraper {
         //Herefter finder vi den mindre kasse som hver data ligger i:
         Elements mediumContainer = todayBiggestContainer.getElementsByTag("tr");
         Elements mediumContainer2 = daysBiggestContainer.getElementsByTag("tr");
-
+        float sumTemp = 0;
+        float sumDownPour = 0;
         //Today
+
         for(Element weatherContainerToday : mediumContainer) {
+
 
             //time during the day
             String time = weatherContainerToday.select("tc_weather__forecast__list__time").text();
 
             //Temperature
-            String tempDuringDayToday = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
-            String tempDuringNightToday = weatherContainerToday.select("tc_weather__forecast__list__temperature_night").text();
+            String tempDuringDayTodayString = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
 
             // Downpour
-            String downPourToday = weatherContainerToday.select("tc_weather__forecast__list__precipitation").text();
+            String downPourTodayString = weatherContainerToday.select("tc_weather__forecast__list__precipitation").text();
+
+
+            // Vi laver vores Strings om til en float
+            float tempDuringDayToday = Float.parseFloat(tempDuringDayTodayString);
+            float downPourToday = Float.parseFloat(downPourTodayString);
+
+            // Så regner vi vores gennemsnit ud fra time
+            sumTemp = sumTemp + tempDuringDayToday;
+            sumDownPour = sumDownPour + downPourToday;
         }
+        float averageTemp = (float) sumTemp / mediumContainer.size();
+        float averageDownPour = (float) sumDownPour / mediumContainer.size();
+
+        Weather today = new Weather("København", averageTemp, 1,averageDownPour, "Sunny", "5 m/s");
+        WeatherList.add(today);
+
 
 
         //Days forward
-        for(Element weatherContainerAllDays : mediumContainer2) {
-
             // Dato
+        for (Element weatherContainerAllDays : mediumContainer2) {
+            //Dato
             String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
 
             // Temperature
             String tempDay = weatherContainerAllDays.select("tc_weather__forecast__list__temperature").text();
-            String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
+           // String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
 
             // Downpour
             String downPour = weatherContainerAllDays.select("tc_weather__forecast__list__precipitation").text();
 
+            // Vi laver vores Strings om til en float
+            float tempDayFloat = Float.parseFloat(tempDay);
+          //  float tempNightFloat = Float.parseFloat(tempNight);
+            float downPourFloat = Float.parseFloat(downPour);
 
+            Weather forward = new Weather("København", tempDayFloat, 1, downPourFloat, "Sunny", "5 m/s");
+            WeatherList.add(forward);
         }
-
 
         return WeatherList;
     }

@@ -19,6 +19,7 @@ public class Weather {
     private String city;
     private float temperature;
     private int humidity;
+    private float downpour;
 
     @Column(name = "weather_type")
     private String weatherType;
@@ -31,11 +32,11 @@ public class Weather {
         date = LocalDate.now();
     }
 
-
-    public Weather(String city, float temperature, int humidity, String weatherType, String wind) {
+    public Weather(String city, float temperature, int humidity, float downpour, String weatherType, String wind) {
         this.city = city;
         this.temperature = temperature;
         this.humidity = humidity;
+        this.downpour = downpour;
         this.weatherType = weatherType;
         this.wind = wind;
     }
