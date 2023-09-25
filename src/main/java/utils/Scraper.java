@@ -41,8 +41,8 @@ public class Scraper {
         Element daysBiggestContainer = doc.select("table.tc_datatable__main").last();
 
         //Herefter finder vi den mindre kasse som hver data ligger i:
-        Elements mediumContainer = todayBiggestContainer.getElementsByTag("tr");
-        Elements mediumContainer2 = daysBiggestContainer.getElementsByTag("tr");
+        Elements mediumContainer = todayBiggestContainer.getElementsByTag("tbody").first().children();
+        Elements mediumContainer2 = daysBiggestContainer.getElementsByTag("tbody").first().children();
         float sumTemp = 0;
         float sumDownPour = 0;
         //Today
@@ -54,22 +54,33 @@ public class Scraper {
             String time = weatherContainerToday.select("tc_weather__forecast__list__time").text();
 
             //Temperature
-            String tempDuringDayTodayString = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
+            String tempDuringDayTodayString = weatherContainerToday.child(2).text();
+
 
             // Downpour
             String downPourTodayString = weatherContainerToday.select("tc_weather__forecast__list__precipitation").text();
 
+            // replace ° with nothing
+            tempDuringDayTodayString = tempDuringDayTodayString.replace("°","");
 
             // Vi laver vores Strings om til en float
             float tempDuringDayToday = Float.parseFloat(tempDuringDayTodayString);
-            float downPourToday = Float.parseFloat(downPourTodayString);
+            float downPourToday = 0;
+            try{
+                downPourToday = Float.parseFloat(downPourTodayString);
+            } catch (NumberFormatException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
 
             // Så regner vi vores gennemsnit ud fra time
             sumTemp = sumTemp + tempDuringDayToday;
             sumDownPour = sumDownPour + downPourToday;
+
         }
-        float averageTemp = (float) sumTemp / mediumContainer.size();
-        float averageDownPour = (float) sumDownPour / mediumContainer.size();
+        float averageTemp = sumTemp / mediumContainer.size();
+        float averageDownPour = sumDownPour / mediumContainer.size();
+
 
         Weather today = new Weather("København", averageTemp, 1,averageDownPour, "Sunny", "5 m/s");
         WeatherList.add(today);
@@ -83,7 +94,7 @@ public class Scraper {
             String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
 
             // Temperature
-            String tempDay = weatherContainerAllDays.select("tc_weather__forecast__list__temperature").text();
+            String tempDay = weatherContainerAllDays.child(2).text().replace("°","");
            // String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
 
             // Downpour
@@ -92,7 +103,12 @@ public class Scraper {
             // Vi laver vores Strings om til en float
             float tempDayFloat = Float.parseFloat(tempDay);
           //  float tempNightFloat = Float.parseFloat(tempNight);
-            float downPourFloat = Float.parseFloat(downPour);
+            float downPourFloat = 0;
+            try{
+                downPourFloat = Float.parseFloat(downPour);
+            } catch (NumberFormatException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
 
             Weather forward = new Weather("København", tempDayFloat, 1, downPourFloat, "Sunny", "5 m/s");
             WeatherList.add(forward);
