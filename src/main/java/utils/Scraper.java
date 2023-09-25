@@ -27,7 +27,7 @@ import static javax.management.Query.attr;
 public class Scraper {
 
     public static List<Weather> fetchWeatherData() throws IOException, InterruptedException {
-        String url = "www.";
+        String url = "https://www.dmi.dk/lokation/show/DK/2618425/København/#9";
 
         List<Weather> WeatherList = new ArrayList<>();
         Document doc = Jsoup.connect(url)
