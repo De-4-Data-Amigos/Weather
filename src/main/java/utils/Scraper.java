@@ -1,6 +1,5 @@
 package utils;
 
-package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +10,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.lang.model.util.Elements;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -36,16 +34,30 @@ public class Scraper {
                 .get();
         Thread.sleep(1000); // 1 second
 
+        // vi starter med at finde den helt store container, som er en fællesklasse for alt vejrdataen.
+        // Vi søger efter id'et, da det er bedst at søge efter id da der kun et et id.
+        Elements biggestContainer = doc.select("c18114");
 
-        Elements biggestContainer = doc.select("div[class=container]");
+        //Herefter finder vi den mindre kasse som hver data ligger i:
+        Elements mediumContainer = doc.select("jss91");
 
-        Elements mediumContainer = doc.select("div[class=container]");
-
+        //Vi løber mediumcontainer igennem som indeholder alt vi skal bruge ifht vejr
         for(Element WeatherContainer : mediumContainer) {
-            //String
+            //Dato
 
+            //Temperatur (min/max)
+
+            // Nedbør
+
+            // Vind
+
+            // UV
+
+            // Luftfugtighed
+            
         }
 
 
+        return WeatherList;
     }
 }
