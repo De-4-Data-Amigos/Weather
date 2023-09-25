@@ -36,10 +36,12 @@ public class Scraper {
 
         // vi starter med at finde den helt store container, som er en fællesklasse for alt vejrdataen.
         // Vi søger efter id'et, da det er bedst at søge efter id da der kun et et id.
-        Elements biggestContainer = doc.select("c18114");
+        Element todayBiggestContainer = doc.select("table.tc_datatable__main").first();
+        Element daysBiggestContainer = doc.select("table.tc_datatable__main").last();
 
         //Herefter finder vi den mindre kasse som hver data ligger i:
-        Elements mediumContainer = doc.select("jss91");
+        Elements mediumContainer = todayBiggestContainer.getElementsByTag("tr");
+        Elements mediumContainer2 = daysBiggestContainer.getElementsByTag("tr");
 
         //Vi løber mediumcontainer igennem som indeholder alt vi skal bruge ifht vejr
         for(Element WeatherContainer : mediumContainer) {
@@ -54,7 +56,7 @@ public class Scraper {
             // UV
 
             // Luftfugtighed
-            
+
         }
 
 
