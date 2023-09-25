@@ -49,21 +49,16 @@ public class Scraper {
             String time = weatherContainerToday.select("tc_weather__forecast__list__time").text();
 
             //Temperature
-        String tempDuringDayToday = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
-        String tempDuringNightToday = weatherContainerToday.select("tc_weather__forecast__list__temperature_night").text();
+            String tempDuringDayToday = weatherContainerToday.select("tc_weather__forecast__list__temperature").text();
+            String tempDuringNightToday = weatherContainerToday.select("tc_weather__forecast__list__temperature_night").text();
 
-        // Downpour
+            // Downpour
             String downPourToday = weatherContainerToday.select("tc_weather__forecast__list__precipitation").text();
-
-            // Wind
-            String WindToday = weatherContainerToday.select("class.tc_weather__forecast__list__wind__speed").text();
-
-            // UV
-            String UVToday = weatherContainerToday.select("span.jss80 ss53").text();
+        }
 
 
         //Days forward
-        for(Element weatherContainerAllDays : mediumContainer) {
+        for(Element weatherContainerAllDays : mediumContainer2) {
             //Dato
             String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
 
@@ -74,11 +69,6 @@ public class Scraper {
             // Nedbør
             String downPour = weatherContainerAllDays.select("tc_weather__forecast__list__precipitation").text();
 
-            // Vind
-            String Wind = weatherContainerAllDays.select("class.tc_weather__forecast__list__wind__speed").text();
-
-            // UV
-            String UV = weatherContainerAllDays.select("span.jss80 ss53).text").text();
 
         }
 
