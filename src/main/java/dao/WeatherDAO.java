@@ -6,15 +6,15 @@ import model.Weather;
 
 import java.util.List;
 
-public class MovieDAO {
+public class WeatherDAO {
 
     private static WeatherDAO instance;
     private static EntityManagerFactory emf;
 
-    public static MovieDAO getInstance(EntityManagerFactory _emf) {
+    public static WeatherDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new MovieDAO();
+            instance = new WeartherDAO();
         }
         return instance;
     }
