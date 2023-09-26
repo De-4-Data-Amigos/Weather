@@ -1,10 +1,13 @@
 package dat;
 
+import com.google.gson.JsonObject;
 import config.HibernateConfig;
 import model.Weather;
 import utils.Scraper;
+import utils.WeatherApiReader;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class Main {
@@ -13,20 +16,13 @@ public class Main {
         HibernateConfig.addAnnotatedClasses(Weather.class);
 //        var emf = HibernateConfig.getEntityManagerFactoryConfig("weather");
 //        WeatherDAO weatherDAO = WeatherDAO.getInstance(emf);
+        var apiReader = WeatherApiReader.getInstance();
 
         try {
             List<Weather> weatherList = Scraper.fetchWeatherData();
-            for (Weather weather : weatherList) {
-                //System.out.println("Tidspunkt: " + weather.getTime());
-                System.out.println("Temperatur: " + weather.getTemperature());
-                System.out.println("Nedbør: " + weather.getDownpour());
-                System.out.println("Vejr: " + weather.getWeatherType());
-
-            }
-        } catch (IOException | InterruptedException e) {
+            JsonObject enrichedData = apiReader.getWeatherData("København");
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
-
-
         }
     }
 }

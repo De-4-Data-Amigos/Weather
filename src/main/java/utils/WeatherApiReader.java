@@ -1,5 +1,8 @@
 package utils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.URI;
@@ -23,7 +26,7 @@ public class WeatherApiReader {
         httpClient = HttpClient.newHttpClient();
     }
 
-    public String getWeatherData(String location) throws URISyntaxException, IOException, InterruptedException {
+    public JsonObject getWeatherData(String location) throws URISyntaxException, IOException, InterruptedException {
         String url = "http://vejr.eu/api.php";
         String locationParameter = "location="+location;
         URI uri = appendUri(url, locationParameter);
@@ -32,8 +35,10 @@ public class WeatherApiReader {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
 
+        JsonObject jObject = new Gson().fromJson(response.body(), JsonObject.class);
+
+        return jObject;
     }
 
 
