@@ -67,9 +67,11 @@ public class Scraper {
             float tempDuringDayToday = Float.parseFloat(tempDuringDayTodayString);
             float downPourToday = 0;
             try{
-                downPourToday = Float.parseFloat(downPourTodayString);
+                if(downPourTodayString != null ||!downPourTodayString.equals("")){
+                    downPourToday = Float.parseFloat(downPourTodayString);
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error: parsing string:" + downPourTodayString + ". Message: " + e.getMessage());
             }
 
 
@@ -105,9 +107,11 @@ public class Scraper {
           //  float tempNightFloat = Float.parseFloat(tempNight);
             float downPourFloat = 0;
             try{
-                downPourFloat = Float.parseFloat(downPour);
+                if(downPour != null ||!downPour.equals("")){
+                    downPourFloat = Float.parseFloat(downPour);
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error: parsing string:" + downPour + ". Message: " + e.getMessage());
             }
 
             Weather forward = new Weather("København", tempDayFloat, 1, downPourFloat, "Sunny", "5 m/s");
