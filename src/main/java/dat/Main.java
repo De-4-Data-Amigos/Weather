@@ -21,6 +21,15 @@ public class Main {
         try {
             List<Weather> weatherList = Scraper.fetchWeatherData();
             JsonObject enrichedData = apiReader.getWeatherData("København");
+
+            Weather todayWeather = weatherList.get(0);
+
+            todayWeather.setHumidity(Integer.parseInt(enrichedData.get("humidity").getAsString()));
+            todayWeather.setWeatherType(enrichedData.get("skyText").getAsString());
+            todayWeather.setWind(enrichedData.get("windText").getAsString().replace("\\",""));
+
+            weatherList.set(0, todayWeather);
+
         } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
