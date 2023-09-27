@@ -13,6 +13,10 @@ public class ScraperTest {
 
     @Test
     public void testFetchWeatherData() {
+
+        //Tester på fetchWeatherData fra Scraper-klassen med simple assertions, for at tjekke
+        //om dataen bliver hentet korrekt.
+
         try {
             List<Weather> weatherList = Scraper.fetchWeatherData();
 
