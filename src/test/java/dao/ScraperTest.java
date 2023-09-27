@@ -24,10 +24,12 @@ public class ScraperTest {
             assertNotNull(weatherList);
             assertTrue(weatherList.size() > 0);
 
-            // Tjekker på disse parametre
+            // Løber listen igennem og tjekker på disse parametre
             for (Weather weather : weatherList) {
                 assertNotNull(weather.getCity());
                 assertNotNull(weather.getTemperature());
+
+                assertEquals("København", weather.getCity());
 
             }
         } catch (IOException | InterruptedException e) {
