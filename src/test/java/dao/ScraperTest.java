@@ -13,17 +13,23 @@ public class ScraperTest {
 
     @Test
     public void testFetchWeatherData() {
+
+        //Tester på fetchWeatherData fra Scraper-klassen med simple assertions, for at tjekke
+        //om dataen bliver hentet korrekt.
+
         try {
             List<Weather> weatherList = Scraper.fetchWeatherData();
 
-            //Holder dem op imod
             assertNotNull(weatherList);
             assertTrue(weatherList.size() > 0);
 
-            // Tjekker på disse parametre
+            // Løber listen igennem og tjekker på disse parametre
             for (Weather weather : weatherList) {
                 assertNotNull(weather.getCity());
                 assertNotNull(weather.getTemperature());
+
+                assertEquals("København", weather.getCity());
+                assertEquals(0, weather.getTemperature());
 
             }
         } catch (IOException | InterruptedException e) {
