@@ -40,6 +40,7 @@ class WeatherApiReaderTest {
     }
 
     @Test
+    // Vi testet om vores uri er den vi får tilbage fra appendUri metoden
     public void testAppendUri() throws UnsupportedEncodingException, URISyntaxException {
         WeatherApiReader apiReader = WeatherApiReader.getInstance();
         String url = "https://vejr.eu/api.php";
