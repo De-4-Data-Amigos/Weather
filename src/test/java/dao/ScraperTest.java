@@ -20,7 +20,6 @@ public class ScraperTest {
         try {
             List<Weather> weatherList = Scraper.fetchWeatherData();
 
-            //Holder dem op imod
             assertNotNull(weatherList);
             assertTrue(weatherList.size() > 0);
 
@@ -30,6 +29,7 @@ public class ScraperTest {
                 assertNotNull(weather.getTemperature());
 
                 assertEquals("København", weather.getCity());
+                assertEquals(0, weather.getTemperature());
 
             }
         } catch (IOException | InterruptedException e) {
