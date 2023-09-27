@@ -39,4 +39,22 @@ class WeatherApiReaderTest {
         assertEquals(200, statusCode);
     }
 
+    @Test
+    public void testAppendUri() throws UnsupportedEncodingException, URISyntaxException {
+        WeatherApiReader apiReader = WeatherApiReader.getInstance();
+        String url = "https://vejr.eu/api.php";
+        String location = "København";
+        String locationParameter = "location="+location;
+        String degreesParameter = "degree=C";
+
+        URI uri = apiReader.appendUri(url, locationParameter);
+        uri = apiReader.appendUri(uri.toString(), degreesParameter);
+
+        // forventet resultat
+        String expectedUri = "https://vejr.eu/api.php?location=København&degree=C";
+
+        assertEquals(expectedUri, uri.toString());
+    }
+
+
 }
