@@ -56,7 +56,7 @@ public class WeatherApiReader {
     }
 
 
-    private URI appendUri(String uri, String appendQuery) throws URISyntaxException, UnsupportedEncodingException {
+    public URI appendUri(String uri, String appendQuery) throws URISyntaxException, UnsupportedEncodingException {
         URI oldUri = new URI(uri);
 
         String newQuery = oldUri.getQuery();
