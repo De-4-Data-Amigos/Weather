@@ -1,8 +1,6 @@
 package utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -32,12 +30,11 @@ public class WeatherApiReader {
 
     public JsonObject getWeatherData(String location) throws URISyntaxException, IOException, InterruptedException {
         String url = "https://vejr.eu/api.php";
-        location = location.replace("ø", "%C3%B8");
         String locationParameter = "location="+location;
         String degreesParameter = "degree=C";
+
         URI uri = appendUri(url, locationParameter);
         uri = appendUri(uri.toString(), degreesParameter);
-        System.out.println(uri);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .header("User-Agent", "Insomnia/2023.5.5")
@@ -45,12 +42,17 @@ public class WeatherApiReader {
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
+        
+        try{
+            JsonObject jObject = new JsonParser().parse(response.body()).getAsJsonObject();
+            return jObject;
+        }
+        catch (JsonParseException e){
+            System.out.println("There was a error when trying to parse response to json. Status code: "+response.statusCode()+". Response body: "+response.body());
+        }
 
-        JsonObject jObject = new JsonParser().parse(response.body()).getAsJsonObject();
 
-
-        return jObject;
+        return null;
     }
 
 
@@ -67,9 +69,4 @@ public class WeatherApiReader {
         return new URI(oldUri.getScheme(), oldUri.getAuthority(),
                 oldUri.getPath(), newQuery, oldUri.getFragment());
     }
-
-    private String encodeValue(String value) throws UnsupportedEncodingException {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-    }
-
 }

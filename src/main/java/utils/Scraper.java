@@ -71,9 +71,8 @@ public class Scraper {
                     downPourToday = Float.parseFloat(downPourTodayString);
                 }
             } catch (NumberFormatException e) {
-               // System.out.println("Error: parsing string:" + downPourTodayString + ". Message: " + e.getMessage());
+                //System.out.println("Error: parsing string:" + downPourTodayString + ". Message: " + e.getMessage());
             }
-
 
             // Så regner vi vores gennemsnit ud fra time
             sumTemp = sumTemp + tempDuringDayToday;
@@ -83,41 +82,37 @@ public class Scraper {
         float averageTemp = sumTemp / mediumContainer.size();
         float averageDownPour = sumDownPour / mediumContainer.size();
 
-
-        Weather today = new Weather("København", averageTemp, 1,averageDownPour, "Sunny", "5 m/s");
+        Weather today = new Weather("København", averageTemp, 1, averageDownPour, "Sunny", "5 m/s");
         WeatherList.add(today);
-
-
 
         //Days forward
             // Dato
-        for (Element weatherContainerAllDays : mediumContainer2) {
+        mediumContainer2.forEach(element -> {
             //Dato
-            String date = weatherContainerAllDays.select("tc_weather__forecast__list__time").text();
-
+            String date = element.select("tc_weather__forecast__list__time").text();
             // Temperature
-            String tempDay = weatherContainerAllDays.child(2).text().replace("°","");
-           // String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
+            String tempDay = element.child(2).text().replace("°","");
+            // String tempNight = weatherContainerAllDays.select("tc_weather__forecast__list__temperature_night").text();
 
             // Downpour
-            String downPour = weatherContainerAllDays.select("tc_weather__forecast__list__precipitation").text();
+            String downPour = element.select("tc_weather__forecast__list__precipitation").text();
 
             // Vi laver vores Strings om til en float
             float tempDayFloat = Float.parseFloat(tempDay);
-          //  float tempNightFloat = Float.parseFloat(tempNight);
+            //  float tempNightFloat = Float.parseFloat(tempNight);
             float downPourFloat = 0;
             try{
-                if(downPour != null ||!downPour.equals("")){
+                if(downPour != null && !downPour.equals("")){
                     downPourFloat = Float.parseFloat(downPour);
                 }
-            } catch (NumberFormatException e) {
-                //System.out.println("Error: parsing string:" + downPour + ". Message: " + e.getMessage());
+            } catch (NumberFormatException _e) {
+                //System.out.println("Error: parsing string:" + downPour + ". Message: " + _e.getMessage());
             }
 
             Weather forward = new Weather("København", tempDayFloat, 1, downPourFloat, "Sunny", "5 m/s");
             WeatherList.add(forward);
-        }
 
+        });
         return WeatherList;
     }
 }

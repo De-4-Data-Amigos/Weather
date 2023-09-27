@@ -11,6 +11,10 @@ import utils.WeatherApiReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -20,9 +24,16 @@ public class Main {
         IWeatherDAO weatherDAO = WeatherDAOImpl.getInstance(emf);
         var apiReader = WeatherApiReader.getInstance();
 
+        ExecutorService es = Executors.newFixedThreadPool(2);
+
         try {
-            List<Weather> weatherList = Scraper.fetchWeatherData();
-            JsonObject enrichedData = apiReader.getWeatherData("København");
+
+            Future<List<Weather>> weatherFuture = es.submit(Scraper::fetchWeatherData);
+            Future<JsonObject> jsonObjectFuture = es.submit(() -> apiReader.getWeatherData("København"));
+            List<Weather> weatherList = weatherFuture.get();
+            JsonObject enrichedData = jsonObjectFuture.get();
+
+
 
             Weather todayWeather = weatherList.get(0);
 
@@ -36,8 +47,10 @@ public class Main {
 
             weatherDAO.create(weatherList.get(0));
 
-        } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            System.out.println("A thread was interrupted and an exception. Exiting the program.\n" + e);
+        } catch (ExecutionException e) {
+            System.out.println("An exception was thrown, while attempting to receive result of an thread. Exiting the program.\n" + e);
         }
     }
 }
