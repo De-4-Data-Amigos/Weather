@@ -71,7 +71,7 @@ public class Scraper {
                     downPourToday = Float.parseFloat(downPourTodayString);
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Error: parsing string:" + downPourTodayString + ". Message: " + e.getMessage());
+               // System.out.println("Error: parsing string:" + downPourTodayString + ". Message: " + e.getMessage());
             }
 
 
@@ -111,7 +111,7 @@ public class Scraper {
                     downPourFloat = Float.parseFloat(downPour);
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Error: parsing string:" + downPour + ". Message: " + e.getMessage());
+                //System.out.println("Error: parsing string:" + downPour + ". Message: " + e.getMessage());
             }
 
             Weather forward = new Weather("København", tempDayFloat, 1, downPourFloat, "Sunny", "5 m/s");

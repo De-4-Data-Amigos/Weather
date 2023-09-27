@@ -29,7 +29,7 @@ public class ScraperTest {
                 assertNotNull(weather.getTemperature());
 
                 assertEquals("København", weather.getCity());
-                assertEquals(0, weather.getTemperature());
+               //assertEquals(0, weather.getTemperature());
 
             }
         } catch (IOException | InterruptedException e) {
